@@ -5,9 +5,7 @@ let package = Package(
     name: "dream-tools",
     platforms: [.macOS(.v10_15)],
     products: [
-        .library(name: "DreamTools", targets: [
-            "DreamToolsCore", "DreamToolsMail", "DreamToolsMail"
-        ]),
+        .library(name: "DreamTools", targets: ["DreamTools"]),
         .library(name: "DreamToolsCore", targets: ["DreamToolsCore"]),
         .library(name: "DreamToolsMail", targets: ["DreamToolsMail"]),
         .library(name: "DreamToolsJWT", targets: ["DreamToolsJWT"]),
@@ -18,6 +16,9 @@ let package = Package(
         .package(url: "https://github.com/Mikroservices/Smtp.git", from: "3.0.3"),
     ],
     targets: [
+        .target(name: "DreamTools", dependencies: [
+            "DreamToolsCore", "DreamToolsMail", "DreamToolsJWT"
+        ]),
         .target(name: "DreamToolsCore"),
         .target(name: "DreamToolsMail", dependencies: [
             .product(name: "Vapor", package: "vapor"),
@@ -27,8 +28,6 @@ let package = Package(
             .product(name: "Vapor", package: "vapor"),
             .product(name: "JWT", package: "jwt"),
         ]),
-        .testTarget(name: "DreamToolsTests", dependencies: [
-            "DreamToolsCore", "DreamToolsMail", "DreamToolsJWT"
-        ]),
+        .testTarget(name: "DreamToolsTests", dependencies: ["DreamTools"]),
     ]
 )
